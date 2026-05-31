@@ -1,6 +1,6 @@
 {
   "name": "치과 임상 기구 단어장",
-  "description": "치의학과 치위생학 임상 및 국가고시에서 다루어지는 주요 치과 기구와 도구를 수록하여 플래시 카드와 퀴즈 형태로 재미있게 복습하고 학습할 수 있는 단어장입니다.",
+  "description": "치위생 임상에서 사용되는 주요 치과 기구와 도구를 수록하여 플래시 카드와 퀴즈 형태로 자가 학습할 수 있는 개인 단어장입니다.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

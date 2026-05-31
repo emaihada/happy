@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VocabItem } from '../types';
 import { VOCAB_DATA } from '../data/vocabData';
-import { Volume2, Star, RefreshCw, ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react';
+import { Star, RefreshCw, ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface FlashcardTabProps {
@@ -27,30 +27,28 @@ export default function FlashcardTab({ bookmarks, toggleBookmark }: FlashcardTab
     setIsFlipped(false);
   }, [selectedChapter]);
 
-  const speakEnglish = (text: string) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
-    }
-  };
-
   const handleNext = () => {
     if (items.length === 0) return;
-    setIsFlipped(false);
-    setTimeout(() => {
+    if (isFlipped) {
+      setIsFlipped(false);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % items.length);
+      }, 350);
+    } else {
       setCurrentIndex((prev) => (prev + 1) % items.length);
-    }, 150);
+    }
   };
 
   const handlePrev = () => {
     if (items.length === 0) return;
-    setIsFlipped(false);
-    setTimeout(() => {
+    if (isFlipped) {
+      setIsFlipped(false);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+      }, 350);
+    } else {
       setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
-    }, 150);
+    }
   };
 
   const handleShuffle = () => {
@@ -65,142 +63,138 @@ export default function FlashcardTab({ bookmarks, toggleBookmark }: FlashcardTab
   const chapterList = chapters.map(c => JSON.parse(c));
 
   return (
-    <div id="flashcardTabContent" className="max-w-xl mx-auto px-4 py-8">
+    <div id="flashcardTabContent" className="max-w-xl mx-auto px-4 py-4 md:py-8 pb-16">
       {/* Chapter Filter & Reshuffle Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 bg-white p-4 rounded-xl border-2 border-slate-100 shadow-sm justify-between">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-5 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-150/40 shadow-sm justify-between">
         <select
           id="flashcardChapterSelect"
           value={selectedChapter}
           onChange={(e) => setSelectedChapter(e.target.value)}
-          className="bg-slate-50 text-slate-700 font-bold border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none"
+          className="bg-slate-50 text-slate-700 font-extrabold border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 focus:outline-none transition-all"
         >
-          <option value="all">전체 챕터 무작위 학습</option>
+          <option value="all">🌐 전체 진료과목 무작위 셔플</option>
           {chapterList.map(ch => (
-            <option key={ch.id} value={ch.id}>{ch.name}</option>
+            <option key={ch.id} value={ch.id}>🩺 {ch.name}</option>
           ))}
         </select>
         <button
           id="reshuffleFlashcardsBtn"
           onClick={handleShuffle}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 border border-indigo-200 text-indigo-600 text-xs font-bold rounded-lg transition-all hover:bg-indigo-100"
+          className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-indigo-50/60 border border-indigo-200/50 text-indigo-700 text-xs font-black rounded-xl hover:bg-indigo-100/70 transition-all active:scale-95"
         >
-          <RefreshCw size={13} /> 카드 다시 섞기
+          <RefreshCw size={13} className="animate-spin" style={{ animationDuration: '4s' }} /> 카드 무작위 셔플
         </button>
       </div>
 
       {items.length === 0 ? (
-        <div className="bg-white rounded-3xl py-12 text-center border-2 border-slate-100 shadow-lg">
-          <p className="text-sm font-semibold text-slate-500">카드가 비어 있습니다.</p>
+        <div className="bg-white rounded-3xl py-12 text-center border border-slate-100 shadow-sm">
+          <p className="text-xs font-semibold text-slate-400">카드가 비어 있습니다.</p>
         </div>
       ) : (
         <div>
-          {/* Card Content with elegant flip animation */}
-          <div className="perspective-1000 w-full aspect-[4/3] max-w-full relative mb-6">
+          {/* Card Content with elegant flip animation. Adjusted height dynamically for smaller devices */}
+          <div className="perspective-1000 w-full min-h-[280px] sm:min-h-[320px] max-w-full relative mb-6">
             <motion.div
               onClick={() => setIsFlipped(!isFlipped)}
-              className="w-full h-full relative preserve-3d duration-300 cursor-pointer"
+              className="w-full h-full absolute preserve-3d duration-300 cursor-pointer"
               animate={{ rotateY: isFlipped ? 180 : 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               {/* Front side of Card (English) */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-100 rounded-3xl shadow-xl flex flex-col items-center justify-between p-6 overflow-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden bg-white border border-slate-100 rounded-3xl shadow-[0_4px_24px_rgb(0,0,0,0.04)] flex flex-col items-center justify-between p-6 overflow-hidden"
                 style={{ zIndex: isFlipped ? 0 : 2 }}
               >
                 <div className="w-full flex items-center justify-between">
-                  <span className="text-[10px] bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-bold">
+                  <span className="text-[10px] bg-slate-50 text-slate-500 border border-slate-100 px-3 py-1 rounded-full font-black">
                     {currentItem.chapterName}
                   </span>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        speakEnglish(currentItem.eng);
-                      }}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-50"
+                      onClick={() => toggleBookmark(currentItem.id)}
+                      className={`w-9 h-9 flex items-center justify-center rounded-xl border transition-all ${
+                        bookmarks.has(currentItem.id) 
+                          ? 'bg-amber-50 border-amber-200 text-amber-500' 
+                          : 'bg-slate-50 border-slate-150 text-slate-400 hover:text-amber-500'
+                      }`}
                     >
-                      <Volume2 size={16} />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleBookmark(currentItem.id);
-                      }}
-                      className={`p-1.5 rounded-lg ${bookmarks.has(currentItem.id) ? 'text-amber-500' : 'text-slate-300'}`}
-                    >
-                      <Star size={16} fill={bookmarks.has(currentItem.id) ? 'currentColor' : 'none'} />
+                      <Star size={15} fill={bookmarks.has(currentItem.id) ? 'currentColor' : 'none'} />
                     </button>
                   </div>
                 </div>
 
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold font-mono tracking-tight text-slate-800 break-words mb-2 select-all">
+                <div className="text-center px-4 max-w-full">
+                  <h2 className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-slate-800 break-words mb-2.5 select-all leading-tight">
                     {currentItem.eng}
                   </h2>
-                  <p className="text-sm text-indigo-500 font-semibold">{currentItem.pron}</p>
+                  <p className="text-xs sm:text-sm text-indigo-500 font-bold tracking-tight bg-indigo-50/50 px-3 py-1 rounded-full inline-block">{currentItem.pron}</p>
                 </div>
 
-                <div className="text-xs text-slate-400 font-semibold flex items-center gap-2">
-                  <HelpCircle size={14} /> 클릭하여 뒤집어보기
+                <div className="text-[10px] text-slate-400 font-extrabold flex items-center gap-1.5 bg-slate-50/50 px-3 py-1.5 rounded-full border border-slate-100">
+                  <HelpCircle size={12} className="text-indigo-400" /> 터치하여 뒤집고 뜻 보기
                 </div>
               </div>
 
               {/* Back side of Card (Korean Meaning & Detail) */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden bg-indigo-50/50 border-2 border-indigo-200 rounded-3xl shadow-xl flex flex-col items-center justify-between p-6 overflow-hidden rotate-y-180"
+                className="absolute inset-0 w-full h-full backface-hidden bg-slate-900 border border-slate-950 rounded-3xl shadow-xl flex flex-col items-center justify-between p-6 overflow-hidden rotate-y-180"
                 style={{ zIndex: isFlipped ? 2 : 0 }}
               >
                 <div className="w-full flex items-center justify-between">
-                  <span className="text-[10px] bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold">
-                    뜻 풀이
+                  <span className="text-[10px] bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-black">
+                    정답 확인
                   </span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleBookmark(currentItem.id);
                     }}
-                    className={`p-1.5 rounded-lg ${bookmarks.has(currentItem.id) ? 'text-amber-500' : 'text-indigo-300'}`}
+                    className={`w-9 h-9 flex items-center justify-center rounded-xl transition-all ${
+                      bookmarks.has(currentItem.id) 
+                        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' 
+                        : 'bg-slate-800 text-slate-400 border border-slate-750'
+                    }`}
                   >
-                    <Star size={16} fill={bookmarks.has(currentItem.id) ? 'currentColor' : 'none'} />
+                    <Star size={15} fill={bookmarks.has(currentItem.id) ? 'currentColor' : 'none'} />
                   </button>
                 </div>
 
                 <div className="text-center px-4 max-w-full">
-                  <h3 className="text-xl font-black text-indigo-900 border-b-2 border-indigo-100 pb-2 inline-block mb-4 select-all">
+                  <h3 className="text-lg sm:text-xl font-black text-emerald-400 border-b border-slate-800 pb-2.5 inline-block mb-3.5 select-all leading-tight">
                     {currentItem.kor}
                   </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium bg-white/70 p-3 rounded-2xl border border-indigo-50 select-all">
+                  <p className="text-xs text-slate-300 leading-relaxed font-semibold bg-slate-800 p-3.5 rounded-2xl border border-slate-750 max-h-[120px] overflow-y-auto select-all">
                     {currentItem.description}
                   </p>
                 </div>
 
-                <div className="text-xs text-indigo-500 font-semibold">
-                  클릭해서 앞면으로
+                <div className="text-[10px] text-indigo-400 font-extrabold bg-indigo-950/30 px-3 py-1.5 rounded-full border border-indigo-900/30">
+                  다시 터치하여 앞면 기구명 보기
                 </div>
               </div>
             </motion.div>
           </div>
 
           {/* Stepper Controllers */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4 px-2">
             <button
               id="prevFlashcardBtn"
               onClick={handlePrev}
-              className="p-3 bg-white text-slate-600 border border-slate-200 hover:border-indigo-200 hover:text-indigo-600 rounded-full transition-all shadow-sm flex items-center justify-center"
+              className="w-12 h-12 bg-white text-slate-600 border border-slate-200 hover:border-indigo-200 hover:text-indigo-600 rounded-full transition-all shadow-sm flex items-center justify-center active:scale-90"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={20} />
             </button>
 
-            <span className="text-xs font-bold text-slate-500 bg-slate-100 px-4 py-2 rounded-full font-mono">
-              {currentIndex + 1} / {items.length}
+            <span className="text-xs font-black text-slate-500 bg-slate-100 border border-slate-150 px-5 py-2.5 rounded-full font-mono">
+              {currentIndex + 1} <span className="opacity-40">/</span> {items.length}
             </span>
 
             <button
               id="nextFlashcardBtn"
               onClick={handleNext}
-              className="p-3 bg-white text-slate-600 border border-slate-200 hover:border-indigo-200 hover:text-indigo-600 rounded-full transition-all shadow-sm flex items-center justify-center"
+              className="w-12 h-12 bg-indigo-600 text-white border border-indigo-700 hover:bg-indigo-700 rounded-full transition-all shadow-md flex items-center justify-center active:scale-90"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
