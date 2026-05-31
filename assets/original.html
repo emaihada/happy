@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>치의학용어 단어장</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans KR',sans-serif;background:#f5f4ff;min-height:100vh;}
+  #menuScreen{min-height:100vh;padding-bottom:40px;}
+  .hero{background:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 50%,#7c3aed 100%);padding:48px 24px 36px;color:#fff;}
+  .hero-title{font-size:1.7rem;font-weight:700;line-height:1.3;margin-bottom:4px;}
+  .hero-sub{font-size:0.84rem;opacity:0.7;margin-bottom:16px;}
+  .hero-badges{display:flex;gap:8px;flex-wrap:wrap;}
+  .hero-badge{background:rgba(255,255,255,0.15);border-radius:20px;padding:5px 14px;font-size:0.76rem;font-weight:500;}
+  .section-label{padding:22px 20px 10px;font-size:0.7rem;font-weight:700;color:#8b7ab0;text-transform:uppercase;letter-spacing:1px;}
+  .menu-list{padding:0 16px 20px;display:flex;flex-direction:column;gap:10px;}
+  .menu-item{background:#fff;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.07);transition:transform 0.12s;border-left:4px solid var(--c);user-select:none;}
+  .menu-item:active{transform:scale(0.98);}
+  .item-num{background:var(--c);color:#fff;border-radius:8px;padding:5px 9px;font-size:0.7rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+  .item-info{flex:1;min-width:0;}
+  .item-title{font-size:0.95rem;font-weight:700;color:#1a1040;margin-bottom:2px;}
+  .item-desc{font-size:0.73rem;color:#8b7ab0;line-height:1.4;}
+  .item-arrow{font-size:1.5rem;color:#c4b5fd;flex-shrink:0;}
+  #pageScreen{display:none;position:fixed;inset:0;flex-direction:column;background:#fff;z-index:100;}
+  #pageScreen.open{display:flex;}
+  .page-header{background:#fff;border-bottom:2px solid #ede9fe;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .back-btn{background:#ede9fe;border:none;border-radius:8px;padding:8px 14px;font-family:'Noto Sans KR';font-size:0.85rem;font-weight:700;color:#4c1d95;cursor:pointer;flex-shrink:0;}
+  .back-btn:active{background:#ddd6fe;}
+  .page-title-bar{font-size:0.9rem;font-weight:700;color:#1a1040;}
+  #pageFrame{flex:1;border:none;width:100%;}
+</style>
+</head>
+<body>
+<div id="menuScreen">
+  <div class="hero">
+    <div class="hero-title">치의학용어 단어장</div>
+    <div class="hero-sub">Dental Terminology</div>
+    <div class="hero-badges">
+      <span class="hero-badge">총 12개 챕터</span>
+      <span class="hero-badge">735개 용어</span>
+      <span class="hero-badge">체크 · 퀴즈 기능</span>
+    </div>
+  </div>
+  <div class="section-label">챕터 선택</div>
+  <div class="menu-list">
+    <div class="menu-item" onclick="openPage('01')" style="--c:#d97706">
+      <div class="item-num">01</div>
+      <div class="item-info">
+        <div class="item-title">용어의 구성</div>
+        <div class="item-desc">접두사·접미사·어근의 기본 구성</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('02')" style="--c:#1d4ed8">
+      <div class="item-num">02</div>
+      <div class="item-info">
+        <div class="item-title">두개골과 구강구조</div>
+        <div class="item-desc">두개골·구강·치아 구조와 명칭</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('03')" style="--c:#0e9375">
+      <div class="item-num">03</div>
+      <div class="item-info">
+        <div class="item-title">진단편 기초용어</div>
+        <div class="item-desc">진단 방법·종류·기구 및 장비</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('04')" style="--c:#d97706">
+      <div class="item-num">04</div>
+      <div class="item-info">
+        <div class="item-title">치료편 기초용어</div>
+        <div class="item-desc">마취·흡인·멸균·보호장비·치료법</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('05')" style="--c:#e11d48">
+      <div class="item-num">05</div>
+      <div class="item-info">
+        <div class="item-title">치과방사선학</div>
+        <div class="item-desc">방사선 기초·촬영법·현상·장비</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('06')" style="--c:#7c3aed">
+      <div class="item-num">06</div>
+      <div class="item-info">
+        <div class="item-title">치과보존학</div>
+        <div class="item-desc">보존수복·미백·근관치료·치근단수술</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('07')" style="--c:#4f46e5">
+      <div class="item-num">07</div>
+      <div class="item-info">
+        <div class="item-title">치과보철학</div>
+        <div class="item-desc">크라운·브리지·의치·임플란트</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('08')" style="--c:#e8527a">
+      <div class="item-num">02</div>
+      <div class="item-info">
+        <div class="item-title">치주학</div>
+        <div class="item-desc">치주조직·질환·치료·기구</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('09')" style="--c:#059669">
+      <div class="item-num">09</div>
+      <div class="item-info">
+        <div class="item-title">소아치과학</div>
+        <div class="item-desc">유치열·치아이상·예방·수복치료</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('10')" style="--c:#0e9375">
+      <div class="item-num">10</div>
+      <div class="item-info">
+        <div class="item-title">구강악안면외과학</div>
+        <div class="item-desc">매복치·낭종·골절·임플란트·기구</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('11')" style="--c:#0284c7">
+      <div class="item-num">11</div>
+      <div class="item-info">
+        <div class="item-title">치과교정학</div>
+        <div class="item-desc">부정교합·교정장치·교정기구</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+    <div class="menu-item" onclick="openPage('12')" style="--c:#0e9375">
+      <div class="item-num">12</div>
+      <div class="item-info">
+        <div class="item-title">임상치위생학</div>
+        <div class="item-desc">치위생과정·구강위생·칫솔질·용품</div>
+      </div>
+      <div class="item-arrow">&#8250;</div>
+    </div>
+  </div>
+</div>
+<div id="pageScreen">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">&#8249; 목록</button>
+    <div class="page-title-bar" id="pageTitle"></div>
+  </div>
+  <iframe id="pageFrame"></iframe>
+</div>
+<script>
+const PAGES = {
+  "01": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDEg7Jqp7Ja07J2YIOq1rOyEsTwvdGl0bGU+CjxsaW5rIGhyZWY9Imh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9Tm90bytTYW5zK0tSOndnaHRAMzAwOzQwMDs1MDA7NzAwJmZhbWlseT1ETStMonoOndnaHRANDAwOzUwMCZkaXNwbGF5PXN3YXAiIHJlbD0ic3R5bGVzaGVldCI+CjxzdHlsZT4KICA6cm9vdHsKICAgIC0tYmc6I2ZmZmRmMDstLXN1cmZhY2U6I2ZmZmZmZjstLWJvcmRlcjojZmNkMzRkOy0tYm9yZGVyMjojZmRlNjhhOwogICAgLS1hY2M6I2Q5NzcwNjstLWFjYy1iZzojZmZmYmViOy0tYWNjLWRhcms6Izc4MzUwZjsKICAgIC0tdGV4dDojMWMxNDAwOy0tdGV4dDI6IzZiNDQwMDstLXRleHQzOiNhMDcwMzA7CiAgICAtLWVuZzojYjQ1MzA5Oy0ta29yOiNkOTc3MDY7LS1ncnAtYmc6I2ZlZjM3NzsKICAgIC0taGRyLWJnOiNmYmJmMjQ7LS1jb3JyZWN0OiMxNmEzNGE7LS13cm9uZzojZGMyNjI2O30KICAqe21hcmdpbjowO3BhZGRpbmc6MDtib3gtc2l6aW5nOmJvcmRlci1ib3g7LXdlYmtpdC10YXAtaGlnaGxpZ2h0LWNvbG9yOnRyYW5zcGFyZW50O30KICBib2R5e2ZvbnQtZmFtaWx5OidOb3RvIFNhbnMgS1InLHNhbnMtc2VyaWY7YmFja2dyb3VuZDp2YXIoLS1iZyk7Y29sb3I6dmFyKC0tdGV4dCk7bWluLWhlaWdodDoxMDB2aDtwYWRkaW5nLWJvdHRvbTo4MHB4O30KICBoZWFkZXJ7YmFja2dyb3VuZDojZmZmO2JvcmRlci1ib3R0b206MnB4IHNvbGlkIHZhcigtLWJvcmRlcik7cGFkZGluZzoxNHB4IDE2cHggMDtwb3NpdGlvbjpzdGlja3k7dG9wOjA7ei1pbmRleDoxMDA7fQogIC5oZWFkZXItdG9we2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47bWFyZ2luLWJvdHRvbToxMnB4O30KICAubG9nb3tmb250LXNpemU6MS4wNXJlbTtmb250LXdlaWdodDo3MDA7Y29sb3I6dmFyKC0tYWNjLWRhcmspO30KICAubG9nbyBzcGFspanVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47bWFyZ2luLWJvdHRvbToxMnB4O30KICAuY2hlY2stcm9vbS1idG57YmFja2dyb3VuZDojZmZmMGYwO2JvcmRlcjoxLjVweCBzb2xpZCAjZmNhNWE1O2JvcmRlci1yYWRpdXM6MjBweDtwYWRkaW5nOjZweCAxNHB4O2ZvbnQtZmFtaWx5OidOb3RvIFNhbnMgS1InO2ZvbnQtc2l6ZTowLjc4cmVtO2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojZGMyNjI2O2N1cnNvcjpwb2ludGVyO3doaXRlLXNwYWNlOm5vd3JhcDt0cmFuc2l0aW9uOmFsbCAwLjE1cztzOyIsICJpdGVtcyI6IFtdfV07",
+  "02": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDIg65GQ6rCc6rOo6rO8IOq1rOqwlSDqtazsobA8L3RpdGxlPgonOw==",
+  "03": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDMg7KeE64uo7Y64IOq4sOy0iOyaqeyWtDwvdGl0bGU+Cg==",
+  "04": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDQg7LmY66OM7Y64IOq4sOy0iOyaqeyWtDwvdGl0bGU+Cg==",
+  "05": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDUg7LmY6rO867Cp7IKs7ISg7ZWZPC90aXRsZT4K",
+  "06": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDYg7LmY6rO867O07KG07ZWZPC90aXRsZT4K",
+  "07": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDcg7LmY6rO867O07LKg7ZWZPC90aXRsZT4K",
+  "08": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDgg7LmY7KO87ZWZPC90aXRsZT4K",
+  "09": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MDkg7IaM7JWE7LmY6rO87ZWZPC90aXRsZT4K",
+  "10": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MTAg6rWs6rCV7JWF7JWI66m07Jm46rO87ZWZPC90aXRsZT4K",
+  "11": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1z;...",
+  "12": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+MTIg7J6E7IOB7LmY7JyE7IOd7ZWZPC90aXRsZT4K"
+};
+
+var LABELS = {"01": "용어의 구성", "02": "두개골과 구강구조", "03": "진단편 기초용어", "04": "치료편 기초용어", "05": "치과방사선학", "06": "치과보존학", "07": "치과보철학", "08": "치주학", "09": "소아치과학", "10": "구강악안면외과학", "11": "치과교정학", "12": "임상치위생학"};
+
+function b64decode(b64) {
+  var bin = atob(b64);
+  var bytes = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+function openPage(key) {
+  document.getElementById('pageTitle').textContent = LABELS[key];
+  var frame = document.getElementById('pageFrame');
+  var html = b64decode(PAGES[key]);
+  frame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+  document.getElementById('pageScreen').classList.add('open');
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  document.getElementById('pageScreen').classList.remove('open');
+  document.getElementById('pageFrame').src = 'about:blank';
+}
+</script>
+</body>
+</html>
